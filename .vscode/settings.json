@@ -1,0 +1,15 @@
+{
+  "files.exclude": {
+    "**/tsconfig*": true,
+    "**/eslint*": true,
+    "**/vite*": true,
+    "**/package.json": true,
+    "**/bun.lock": true,
+    "**/node_modules": true,
+    "**/README.md": true,
+    "**/LICENSE": true,
+    "**/dist*": true,
+    "**/.gitignore": true
+  },
+  "editor.formatOnSave": true
+}
