@@ -1,23 +1,43 @@
-import { Hono } from 'hono'
-import { cors } from 'hono/cors'
-import type { ApiResponse } from 'shared/dist'
+import PocketBase from "pocketbase";
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+import type { ApiResponse } from "shared/dist";
+import { getCookie } from "hono/cookie";
 
-const app = new Hono()
+type Variables = {
+  pb: PocketBase;
+};
 
-app.use(cors())
+const app = new Hono<{ Variables: Variables }>();
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+app.use(cors());
 
-app.get('/hello', async (c) => {
+// Auth and create PB
+app.all("/api/*", async (c, next) => {
+  const pocketbaseCookie = getCookie(c, "pb_auth") || "";
+  const pb = new PocketBase("http://localhost:8090");
+  pb.authStore.loadFromCookie(pocketbaseCookie);
 
-  const data: ApiResponse = {
-    message: "Hello BHVR!",
-    success: true
+  try {
+    if (!pb.authStore.isValid) throw new Error("Invalid auth store");
+
+    c.set("pb", pb);
+
+    pb.collection("user").authRefresh();
+  } catch (error) {
+    throw new Error("Authentication failed: " + error);
   }
 
-  return c.json(data, { status: 200 })
-})
+  return next();
+});
 
-export default app
+app.get("/api/server", async (c) => {
+  const data: ApiResponse = {
+    message: "Hello BHVR!",
+    success: true,
+  };
+
+  return c.json(data, { status: 200 });
+});
+
+export default app;

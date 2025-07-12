@@ -39,3 +39,7 @@ pnpm-debug.log*
 
 # Bun
 bun.lockb
+
+# Docker
+docker/*
+!docker-compose.yaml
