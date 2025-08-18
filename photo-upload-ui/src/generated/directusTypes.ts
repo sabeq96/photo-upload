@@ -12,7 +12,7 @@ export interface Gallery {
   date_created: string | null;
   user_updated: string | DirectusUser<Schema> | null;
   date_updated: string | null;
-  title: string | null;
+  title: string;
   photos: number[] | Photo[];
 }
 
