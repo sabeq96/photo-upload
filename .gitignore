@@ -43,3 +43,6 @@ bun.lockb
 # Docker
 docker/*
 !docker-compose.yaml
+
+directus/uploads/*
+directus/data/*
