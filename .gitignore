@@ -45,4 +45,6 @@ docker/*
 !docker-compose.yaml
 
 directus/uploads/*
-directus/data/*
+directus/database/*
+directus/extensions/*
+

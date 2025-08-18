@@ -1,16 +1,30 @@
 import type { DirectusUser, DirectusFile } from "@directus/sdk";
 
 export interface Schema {
-  Photo: Photo[];
+  galleries: Gallery[];
+  photos: Photo[];
 }
 
-export interface Photo {
+export interface Gallery {
   id: number;
+  sort: number | null;
   user_created: string | DirectusUser<Schema> | null;
   date_created: string | null;
   user_updated: string | DirectusUser<Schema> | null;
   date_updated: string | null;
-  photo: string | DirectusFile<Schema>;
+  title: string | null;
+  photos: number[] | Photo[];
+}
+
+export interface Photo {
+  id: number;
+  sort: number | null;
+  user_created: string | DirectusUser<Schema> | null;
+  date_created: string | null;
+  user_updated: string | DirectusUser<Schema> | null;
+  date_updated: string | null;
+  photo: string | DirectusFile<Schema> | null;
+  gallery_id: number | Gallery | null;
 }
 
 // GeoJSON Types
