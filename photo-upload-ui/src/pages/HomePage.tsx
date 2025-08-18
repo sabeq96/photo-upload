@@ -8,7 +8,7 @@ export function HomePage() {
       <div className="hero-content text-center">
         <div className="max-w-md">
           <h1 className="text-5xl font-bold">
-            Welcome back{user?.first_name ? `, ${user.first_name}` : ""}!
+            Welcome back{user?.first_name && `, ${user.first_name}`}!
           </h1>
           <p className="py-6">
             You are now logged in and can start uploading your photos.
