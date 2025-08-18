@@ -1,7 +1,24 @@
 import { useState, useEffect, type ReactNode } from "react";
-import { useDirectus } from "./useDirectus";
+import { useDirectus } from "../hooks/useDirectus";
 import { readMe } from "@directus/sdk";
-import { AuthContext, type AuthContextType } from "../contexts/AuthContext";
+import { createContext } from "react";
+
+interface User {
+  id: string;
+  email: string;
+  first_name?: string | null;
+  last_name?: string | null;
+}
+
+export interface AuthContextType {
+  user: User | null;
+  isLoading: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  isAuthenticated: boolean;
+}
+
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthContextType["user"]>(null);
