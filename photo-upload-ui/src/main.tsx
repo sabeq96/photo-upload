@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import "./index.css";
 import { HomePage, LoginPage } from "./pages";
 import { AuthenticatedLayout, PublicLayout } from "./components";
-import { DirectusProvider, AuthProvider } from "./hooks";
+import { DirectusProvider, AuthProvider } from "./providers";
 
 const router = createBrowserRouter([
   {
