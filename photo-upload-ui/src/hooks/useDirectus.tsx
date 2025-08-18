@@ -1,20 +1,6 @@
 import { createContext, useContext, type ReactNode } from "react";
 import { createDirectus, rest } from "@directus/sdk";
-
-// Schema
-type DirectusSchema = {
-  gallery: {
-    id: string;
-    title: string;
-    description: string;
-    images: Array<{
-      id: string;
-      url: string;
-      title: string;
-      description: string;
-    }>;
-  };
-};
+import type { DirectusSchema } from "../generated";
 
 // Create Directus client
 const directus = createDirectus<DirectusSchema>("http://localhost:8055").with(
@@ -24,12 +10,7 @@ const directus = createDirectus<DirectusSchema>("http://localhost:8055").with(
 // Create context
 const DirectusContext = createContext<typeof directus | null>(null);
 
-// Provider component
-interface DirectusProviderProps {
-  children: ReactNode;
-}
-
-export function DirectusProvider({ children }: DirectusProviderProps) {
+export function DirectusProvider({ children }: { children: ReactNode }) {
   return (
     <DirectusContext.Provider value={directus}>
       {children}
