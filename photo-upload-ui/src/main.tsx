@@ -3,20 +3,26 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import "./index.css";
 import { HomePage, LoginPage } from "./pages";
-import { Layout } from "./components";
-import { DirectusProvider } from "./hooks";
+import { AuthenticatedLayout, PublicLayout } from "./components";
+import { DirectusProvider, AuthProvider } from "./hooks";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <AuthenticatedLayout />,
     children: [
       {
         index: true,
         element: <HomePage />,
       },
+    ],
+  },
+  {
+    path: "/login",
+    element: <PublicLayout />,
+    children: [
       {
-        path: "login",
+        index: true,
         element: <LoginPage />,
       },
     ],
@@ -26,7 +32,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <DirectusProvider>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </DirectusProvider>
   </StrictMode>
 );

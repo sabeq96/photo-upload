@@ -1,1 +1,2 @@
-export { Layout } from "./Layout";
+export { AuthenticatedLayout } from "./AuthenticatedLayout";
+export { PublicLayout } from "./PublicLayout";

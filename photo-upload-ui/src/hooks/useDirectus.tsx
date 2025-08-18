@@ -1,11 +1,11 @@
 import { createContext, useContext, type ReactNode } from "react";
-import { createDirectus, rest } from "@directus/sdk";
+import { authentication, createDirectus, rest } from "@directus/sdk";
 import type { DirectusSchema } from "../generated";
 
 // Create Directus client
-const directus = createDirectus<DirectusSchema>("http://localhost:8055").with(
-  rest()
-);
+const directus = createDirectus<DirectusSchema>("http://localhost:8055")
+  .with(rest())
+  .with(authentication());
 
 // Create context
 const DirectusContext = createContext<typeof directus | null>(null);
@@ -24,5 +24,6 @@ export function useDirectus(): typeof directus {
   if (!context) {
     throw new Error("useDirectus must be used within a DirectusProvider");
   }
+
   return context;
 }
