@@ -1,9 +1,7 @@
-import { useNavigate } from "react-router";
 import { usePhotos } from "../hooks";
-import { PhotoCard } from "../components";
+import { PhotoCard, ButtonUploadPhotos } from "../components";
 
 export function HomePage() {
-  const navigate = useNavigate();
   const { photos, loading: photosLoading, error: photosError } = usePhotos();
 
   if (photosLoading) {
@@ -57,37 +55,14 @@ export function HomePage() {
           <p className="text-base-content/70 mb-4">
             Start by uploading your first photos
           </p>
-          <button
-            className="btn btn-primary"
-            onClick={() => navigate("/photos/upload")}
-          >
+          <ButtonUploadPhotos variant="regular">
             Upload Photos
-          </button>
+          </ButtonUploadPhotos>
         </div>
       )}
 
       {/* Floating Upload Button - Only show when there are photos */}
-      {!isEmpty && (
-        <button
-          className="btn btn-primary btn-circle fixed bottom-6 right-6 z-50 shadow-lg"
-          onClick={() => navigate("/photos/upload")}
-          aria-label="Upload photos"
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-            />
-          </svg>
-        </button>
-      )}
+      <ButtonUploadPhotos variant="floating" show={!isEmpty} />
     </div>
   );
 }
