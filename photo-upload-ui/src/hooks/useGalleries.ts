@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { readItems } from "@directus/sdk";
 import { useDirectus } from "./useDirectus";
+import type { DirectusSchema } from "../generated";
 
 export function useGalleries() {
   const directus = useDirectus();
-  const [galleries, setGalleries] = useState<unknown[]>([]);
+  const [galleries, setGalleries] = useState<DirectusSchema["galleries"]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

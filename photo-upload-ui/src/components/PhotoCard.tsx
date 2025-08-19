@@ -1,24 +1,19 @@
+import type { DirectusSchema } from "../generated";
+import { createAssetUrl } from "../helper";
+
 interface PhotoCardProps {
-  photo: Record<string, unknown>;
+  photo: DirectusSchema["photos"][number];
 }
 
 export function PhotoCard({ photo }: PhotoCardProps) {
-  const photoUrl = typeof photo.photo === "string" ? photo.photo : null;
+  const url = createAssetUrl(
+    typeof photo.photo === "string" ? photo.photo : ""
+  );
 
   return (
     <div className="card bg-base-100 shadow-xl">
       <figure className="aspect-square overflow-hidden">
-        {photoUrl ? (
-          <img
-            src={`http://localhost:8055/assets/${photoUrl}`}
-            alt="Photo"
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="w-full h-full bg-base-200 flex items-center justify-center">
-            <span className="text-base-content/50">No image</span>
-          </div>
-        )}
+        <img src={url} alt="Photo" className="w-full h-full object-cover" />
       </figure>
     </div>
   );

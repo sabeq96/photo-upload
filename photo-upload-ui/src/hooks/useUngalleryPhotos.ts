@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { readItems } from "@directus/sdk";
 import { useDirectus } from "./useDirectus";
+import type { DirectusSchema } from "../generated";
 
 export function useUngalleryPhotos() {
   const directus = useDirectus();
-  const [photos, setPhotos] = useState<unknown[]>([]);
+  const [photos, setPhotos] = useState<DirectusSchema["photos"]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -37,6 +38,8 @@ export function useUngalleryPhotos() {
 
     fetchUngalleryPhotos();
   }, [directus]);
+
+  console.log(photos);
 
   return { photos, loading, error };
 }

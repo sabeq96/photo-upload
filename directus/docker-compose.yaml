@@ -15,5 +15,5 @@ services:
       DB_CLIENT: sqlite3
       DB_FILENAME: /directus/database/data.db
       CORS_ENABLED: true
-      CORS_ORIGIN: "*"
+      CORS_ORIGIN: http://localhost:5173
       WEBSOCKETS_ENABLED: false

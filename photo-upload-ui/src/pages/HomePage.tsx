@@ -37,10 +37,7 @@ export function HomePage() {
           <h2 className="text-lg font-semibold mb-4">Galleries</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {galleries.map((gallery, index) => (
-              <GalleryCard
-                key={index}
-                gallery={gallery as Record<string, unknown>}
-              />
+              <GalleryCard key={index} gallery={gallery} />
             ))}
           </div>
         </section>
@@ -52,7 +49,7 @@ export function HomePage() {
           <h2 className="text-lg font-semibold mb-4">Photos</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {photos.map((photo, index) => (
-              <PhotoCard key={index} photo={photo as Record<string, unknown>} />
+              <PhotoCard key={index} photo={photo} />
             ))}
           </div>
         </section>
