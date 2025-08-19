@@ -2,7 +2,7 @@ import { Link, Outlet, Navigate } from "react-router";
 import { useAuth } from "../hooks";
 
 export function AuthenticatedLayout() {
-  const { user, logout, isAuthenticated, isLoading } = useAuth();
+  const { logout, isAuthenticated, isLoading } = useAuth();
 
   // Show loading spinner while checking authentication
   if (isLoading) {
@@ -36,12 +36,14 @@ export function AuthenticatedLayout() {
         </div>
         <div className="navbar-end">
           <Link to="/" className="btn btn-ghost">
-            Home
+            Photos
+          </Link>
+          <Link to="/albums" className="btn btn-ghost">
+            Albums
           </Link>
 
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost">
-              {user?.first_name || user?.email || "User"}
               <svg
                 width="12"
                 height="12"
@@ -56,6 +58,9 @@ export function AuthenticatedLayout() {
               tabIndex={0}
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
             >
+              <li>
+                <a href="/admin">Admin</a>
+              </li>
               <li>
                 <button onClick={handleLogout} className="text-left">
                   Logout

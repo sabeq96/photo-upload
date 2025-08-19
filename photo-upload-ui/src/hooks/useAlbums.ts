@@ -3,43 +3,34 @@ import { readItems } from "@directus/sdk";
 import { useDirectus } from "./useDirectus";
 import type { DirectusSchema } from "../generated";
 
-export function useUngalleryPhotos() {
+export function useAlbums() {
   const directus = useDirectus();
-  const [photos, setPhotos] = useState<DirectusSchema["photos"]>([]);
+  const [galleries, setGalleries] = useState<DirectusSchema["albums"]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchUngalleryPhotos = async () => {
+    const fetchGalleries = async () => {
       try {
         setLoading(true);
         const response = await directus.request(
-          readItems("photos", {
-            fields: ["*"],
-            filter: {
-              gallery_id: {
-                _null: true,
-              },
-            },
-            sort: ["date_created"],
+          readItems("albums", {
+            fields: ["*", { photos: ["*"] }],
+            sort: ["sort", "date_created"],
           })
         );
-        setPhotos(response || []);
+        setGalleries(response || []);
       } catch (err) {
         setError(
-          err instanceof Error
-            ? err.message
-            : "Failed to fetch ungallery photos"
+          err instanceof Error ? err.message : "Failed to fetch galleries"
         );
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUngalleryPhotos();
+    fetchGalleries();
   }, [directus]);
 
-  console.log(photos);
-
-  return { photos, loading, error };
+  return { galleries, loading, error };
 }

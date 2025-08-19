@@ -1,0 +1,59 @@
+import { useAlbums } from "../hooks";
+import { GalleryCard } from "../components";
+
+export function AlbumsPage() {
+  const { galleries, loading, error } = useAlbums();
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-64">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="alert alert-error">
+        <span>Error: {error}</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-6">
+      <h1 className="text-2xl font-bold mb-6">Albums</h1>
+
+      {galleries && galleries.length > 0 ? (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {galleries.map((gallery, index) => (
+            <GalleryCard key={index} gallery={gallery} />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-12">
+          <div className="text-base-content/50 mb-4">
+            <svg
+              className="w-16 h-16 mx-auto mb-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1}
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+              />
+            </svg>
+          </div>
+          <h3 className="text-lg font-semibold mb-2">No albums yet</h3>
+          <p className="text-base-content/70 mb-4">
+            Create your first album to organize your photos
+          </p>
+          <button className="btn btn-primary">Create Album</button>
+        </div>
+      )}
+    </div>
+  );
+}

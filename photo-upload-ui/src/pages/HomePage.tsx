@@ -1,12 +1,8 @@
-import { useUngalleryPhotos } from "../hooks";
+import { usePhotos } from "../hooks";
 import { PhotoCard } from "../components";
 
 export function HomePage() {
-  const {
-    photos,
-    loading: photosLoading,
-    error: photosError,
-  } = useUngalleryPhotos();
+  const { photos, loading: photosLoading, error: photosError } = usePhotos();
 
   if (photosLoading) {
     return (

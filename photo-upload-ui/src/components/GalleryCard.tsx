@@ -2,29 +2,30 @@ import type { DirectusSchema } from "../generated";
 import { createAssetUrl } from "../helper";
 
 interface GalleryCardProps {
-  gallery: DirectusSchema["galleries"][number];
+  gallery: DirectusSchema["albums"][number];
 }
 
 export function GalleryCard({ gallery }: GalleryCardProps) {
   const firstPhoto =
     Array.isArray(gallery.photos) && gallery.photos.length > 0
       ? gallery.photos[0]
-      : null;
+      : 0;
   const photoCount = Array.isArray(gallery.photos) ? gallery.photos.length : 0;
   const title =
     typeof gallery.title === "string" ? gallery.title : "Untitled Gallery";
 
   const url = createAssetUrl(
-    typeof firstPhoto?.photo === "string" ? firstPhoto.photo : ""
+    typeof firstPhoto === "number"
+      ? ""
+      : typeof firstPhoto.photo === "string"
+      ? firstPhoto.photo
+      : ""
   );
 
   return (
     <div className="card bg-base-100 shadow-xl">
       <figure className="aspect-square overflow-hidden">
-        {firstPhoto &&
-        typeof firstPhoto === "object" &&
-        firstPhoto !== null &&
-        "photo" in firstPhoto ? (
+        {url ? (
           <img src={url} alt={title} className="w-full h-full object-cover" />
         ) : (
           <div className="w-full h-full bg-base-200 flex items-center justify-center">

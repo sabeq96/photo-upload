@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import "./index.css";
-import { HomePage, LoginPage } from "./pages";
+import { HomePage, LoginPage, AlbumsPage } from "./pages";
 import { AuthenticatedLayout, PublicLayout } from "./components";
 import { DirectusProvider, AuthProvider } from "./providers";
 
@@ -15,6 +15,10 @@ const router = createBrowserRouter(
         {
           index: true,
           element: <HomePage />,
+        },
+        {
+          path: "albums",
+          element: <AlbumsPage />,
         },
       ],
     },
