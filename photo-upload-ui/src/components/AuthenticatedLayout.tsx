@@ -65,7 +65,7 @@ export function AuthenticatedLayout() {
           </div>
         </div>
       </nav>
-      <main className="container mx-auto p-4">
+      <main className="container mx-auto">
         <Outlet />
       </main>
     </div>

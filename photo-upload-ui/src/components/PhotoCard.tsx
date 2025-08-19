@@ -11,10 +11,8 @@ export function PhotoCard({ photo }: PhotoCardProps) {
   );
 
   return (
-    <div className="card bg-base-100 shadow-xl">
-      <figure className="aspect-square overflow-hidden">
-        <img src={url} alt="Photo" className="w-full h-full object-cover" />
-      </figure>
+    <div className="aspect-square overflow-hidden">
+      <img src={url} alt="Photo" className="w-full h-full object-cover" />
     </div>
   );
 }
