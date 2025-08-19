@@ -23,7 +23,7 @@ export function PublicLayout() {
       <nav className="navbar bg-base-300">
         <div className="navbar-start">
           <Link to="/login" className="btn btn-ghost text-xl">
-            Photo Upload
+            :)
           </Link>
         </div>
         <div className="navbar-end">

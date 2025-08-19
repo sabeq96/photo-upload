@@ -32,7 +32,7 @@ export function AuthenticatedLayout() {
       <nav className="navbar bg-base-300">
         <div className="navbar-start">
           <Link to="/" className="btn btn-ghost text-xl">
-            Photo Upload
+            :)
           </Link>
         </div>
         <div className="navbar-end">

@@ -1,5 +1,5 @@
 import { useAlbums } from "../hooks";
-import { AlbumCard } from "../components";
+import { AlbumCard, ButtonNavigateCreateAlbum } from "../components";
 
 export function AlbumsPage() {
   const { galleries, loading, error } = useAlbums();
@@ -55,9 +55,12 @@ export function AlbumsPage() {
           <p className="text-base-content/70 mb-4">
             Create your first album to organize your photos
           </p>
-          <button className="btn btn-primary">Create Album</button>
+          <ButtonNavigateCreateAlbum>Create Album</ButtonNavigateCreateAlbum>
         </div>
       )}
+
+      {/* Floating Create Album Button - Only show when there are albums */}
+      {!isEmpty && <ButtonNavigateCreateAlbum variant="floating" />}
     </div>
   );
 }
