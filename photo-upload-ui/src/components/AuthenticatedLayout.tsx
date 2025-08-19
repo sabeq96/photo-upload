@@ -1,8 +1,9 @@
-import { Link, Outlet, Navigate } from "react-router";
+import { Link, Outlet, Navigate, useLocation } from "react-router";
 import { useAuth } from "../hooks";
 
 export function AuthenticatedLayout() {
   const { logout, isAuthenticated, isLoading } = useAuth();
+  const location = useLocation();
 
   // Show loading spinner while checking authentication
   if (isLoading) {
@@ -35,10 +36,20 @@ export function AuthenticatedLayout() {
           </Link>
         </div>
         <div className="navbar-end">
-          <Link to="/" className="btn btn-ghost">
+          <Link
+            to="/"
+            className={`btn ${
+              location.pathname === "/" ? "btn-primary" : "btn-ghost"
+            }`}
+          >
             Photos
           </Link>
-          <Link to="/albums" className="btn btn-ghost">
+          <Link
+            to="/albums"
+            className={`btn ${
+              location.pathname === "/albums" ? "btn-primary" : "btn-ghost"
+            }`}
+          >
             Albums
           </Link>
 

@@ -17,7 +17,7 @@ export function ButtonUploadPhotos({
   onUploadComplete,
 }: ButtonUploadPhotosProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { uploadPhotos, uploading, progress } = usePhotoUpload();
+  const { uploadPhotos, uploading } = usePhotoUpload();
 
   const handleUploadClick = () => {
     if (!uploading) {
