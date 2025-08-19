@@ -2,7 +2,16 @@ import { usePhotos } from "../hooks";
 import { PhotoCard, ButtonUploadPhotos } from "../components";
 
 export function HomePage() {
-  const { photos, loading: photosLoading, error: photosError } = usePhotos();
+  const {
+    photos,
+    loading: photosLoading,
+    error: photosError,
+    refresh,
+  } = usePhotos();
+
+  const handleUploadComplete = () => {
+    refresh();
+  };
 
   if (photosLoading) {
     return (
@@ -55,14 +64,21 @@ export function HomePage() {
           <p className="text-base-content/70 mb-4">
             Start by uploading your first photos
           </p>
-          <ButtonUploadPhotos variant="regular">
+          <ButtonUploadPhotos
+            variant="regular"
+            onUploadComplete={handleUploadComplete}
+          >
             Upload Photos
           </ButtonUploadPhotos>
         </div>
       )}
 
       {/* Floating Upload Button - Only show when there are photos */}
-      <ButtonUploadPhotos variant="floating" show={!isEmpty} />
+      <ButtonUploadPhotos
+        variant="floating"
+        show={!isEmpty}
+        onUploadComplete={handleUploadComplete}
+      />
     </div>
   );
 }
