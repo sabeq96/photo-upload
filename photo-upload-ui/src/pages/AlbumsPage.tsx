@@ -1,5 +1,5 @@
 import { useAlbums } from "../hooks";
-import { GalleryCard } from "../components";
+import { AlbumCard } from "../components";
 
 export function AlbumsPage() {
   const { galleries, loading, error } = useAlbums();
@@ -20,17 +20,21 @@ export function AlbumsPage() {
     );
   }
 
-  return (
-    <div className="container mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold mb-6">Albums</h1>
+  const isEmpty = !galleries || galleries.length === 0;
 
-      {galleries && galleries.length > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {galleries.map((gallery, index) => (
-            <GalleryCard key={index} gallery={gallery} />
+  return (
+    <div className="w-full h-full">
+      {/* Albums Grid - Full Page */}
+      {!isEmpty && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
+          {galleries.map((album, index) => (
+            <AlbumCard key={index} album={album} />
           ))}
         </div>
-      ) : (
+      )}
+
+      {/* Empty State */}
+      {isEmpty && (
         <div className="text-center py-12">
           <div className="text-base-content/50 mb-4">
             <svg
