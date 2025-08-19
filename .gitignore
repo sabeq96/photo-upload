@@ -47,4 +47,6 @@ docker/*
 directus/uploads/*
 directus/database/*
 directus/extensions/*
+!directus/extensions/spa
+
 

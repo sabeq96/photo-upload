@@ -6,28 +6,31 @@ import { HomePage, LoginPage } from "./pages";
 import { AuthenticatedLayout, PublicLayout } from "./components";
 import { DirectusProvider, AuthProvider } from "./providers";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <AuthenticatedLayout />,
-    children: [
-      {
-        index: true,
-        element: <HomePage />,
-      },
-    ],
-  },
-  {
-    path: "/login",
-    element: <PublicLayout />,
-    children: [
-      {
-        index: true,
-        element: <LoginPage />,
-      },
-    ],
-  },
-]);
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <AuthenticatedLayout />,
+      children: [
+        {
+          index: true,
+          element: <HomePage />,
+        },
+      ],
+    },
+    {
+      path: "/login",
+      element: <PublicLayout />,
+      children: [
+        {
+          index: true,
+          element: <LoginPage />,
+        },
+      ],
+    },
+  ],
+  { basename: "/spa" }
+);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
