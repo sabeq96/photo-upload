@@ -9,5 +9,15 @@ export default defineConfig({
     outDir: "../directus/extensions/spa-dist",
     emptyOutDir: true,
   },
+  server: {
+    proxy: {
+      "/directus": {
+        target: "http://localhost:8055",
+        rewrite: (path) => path.replace(/^\/directus/, ""),
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
   plugins: [react(), tailwindcss()],
 });
