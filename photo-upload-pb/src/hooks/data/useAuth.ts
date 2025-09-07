@@ -36,6 +36,7 @@ export const useAuth = () => {
     return {
         login,
         logout,
+        user,
         isAuthenticated: !!user,
         isLoading,
     };

@@ -1,9 +1,10 @@
 import { Outlet, useNavigate } from "react-router";
 import { useAuth } from "../hooks";
 import { useEffect } from "react";
+import { Card } from "primereact/card";
 
 export function AuthLayout() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
   const nav = useNavigate();
 
   useEffect(() => {
@@ -18,6 +19,7 @@ export function AuthLayout() {
 
   return (
     <div>
+      <Card>Hello {user?.name || user?.email}</Card>
       <Outlet />
     </div>
   );
