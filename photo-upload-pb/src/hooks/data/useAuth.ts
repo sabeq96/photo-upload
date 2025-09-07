@@ -1,43 +1,42 @@
-import { useEffect } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { usePocketBase } from "../../context";
-import { authStore } from "../../stores";
 import type { UsersResponse } from "../../types/pb";
 
 export const useAuth = () => {
     const pb = usePocketBase();
-    const { user, isLoading, setUser, setIsLoading } = authStore();
 
-    useEffect(() => {
-        if (pb.authStore.isValid && !user && !isLoading) {
-            setUser(pb.authStore.record as UsersResponse);
+    const query = useQuery({
+        queryKey: ["auth"],
+        queryFn: () => {
+            console.log("fetch")
+            if (pb.authStore.isValid) {
+                return pb.authStore.record as UsersResponse;
+            }
+
+            return null;
         }
-    }, [pb.authStore.isValid, user, isLoading, setUser]);
+    });
 
-    const login = async (email: string, password: string) => {
-        try {
-            setIsLoading(true);
+    const login = useMutation({
+        mutationFn: ({ email, password }: { email: string, password: string }) => {
+            return pb.collection("users").authWithPassword(email, password);
+        },
+        onSuccess: () => {
+            console.log("login success");
+            return query.refetch();
+        }
+    })
+
+    const logout = useMutation({
+        mutationFn: () => {
             pb.authStore.clear();
-            await pb.collection("users").authWithPassword(email, password);
-            setUser(pb.authStore.record as UsersResponse);
-        }
-        catch {
-            throw new Error("Login failed");
-        }
-        finally {
-            setIsLoading(false);
-        }
-    }
 
-    const logout = async () => {
-        pb.authStore.clear();
-        setUser(null);
-    }
+            return Promise.resolve();
+        },
+        onSuccess: () => {
+            return query.refetch();
+        }
+    })
 
-    return {
-        login,
-        logout,
-        user,
-        isAuthenticated: !!user,
-        isLoading,
-    };
+    return {query, login, logout};
 }

@@ -4,28 +4,23 @@ import { Password } from "primereact/password";
 import { Button } from "primereact/button";
 import { Message } from "primereact/message";
 import { Card } from "primereact/card";
-import { useAuth } from "../hooks/data/useAuth";
+import { useAuth } from "../hooks";
 
 export function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isError, setIsError] = useState(false);
-  const { login, isLoading } = useAuth();
+  const { login } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await login(email, password);
-    } catch {
-      setIsError(true);
-    }
+    login.mutate({ email, password });
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen">
       <Card title="Login" className="w-full max-w-md p-6">
         <form onSubmit={handleSubmit} className="space-y-4">
-          {isError && (
+          {login.isError && (
             <Message
               severity="error"
               text="Invalid email or password"
@@ -70,8 +65,8 @@ export function LoginPage() {
             type="submit"
             label="Login"
             className="w-full"
-            loading={isLoading}
-            disabled={isLoading || !email || !password}
+            loading={login.isPending}
+            disabled={login.isPending || !email || !password}
           />
         </form>
       </Card>

@@ -11,6 +11,7 @@
     "generate:pb": "pocketbase-typegen --env --out src/types/pb.ts"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.87.1",
     "pocketbase": "^0.26.2",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.7",

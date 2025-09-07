@@ -3,18 +3,16 @@ import { useAuth } from "../hooks";
 import { useEffect } from "react";
 
 export function PublicLayout() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { query } = useAuth();
   const nav = useNavigate();
 
-  console.log("isAuthenticated", isAuthenticated);
-
   useEffect(() => {
-    if (isAuthenticated) {
+    if (query.data) {
       nav("/");
     }
-  }, [isAuthenticated]);
+  }, [query.data]);
 
-  if (isLoading) {
+  if (query.isLoading) {
     return <div>Loading...</div>;
   }
 

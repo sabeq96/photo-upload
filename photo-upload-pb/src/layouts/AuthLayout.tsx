@@ -4,22 +4,22 @@ import { useEffect } from "react";
 import { Card } from "primereact/card";
 
 export function AuthLayout() {
-  const { isAuthenticated, isLoading, user } = useAuth();
+  const { query } = useAuth();
   const nav = useNavigate();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!query.data) {
       nav("/login");
     }
-  }, [isAuthenticated]);
+  }, [query.data]);
 
-  if (isLoading) {
+  if (query.isLoading) {
     return <div>Loading...</div>;
   }
 
   return (
     <div>
-      <Card>Hello {user?.name || user?.email}</Card>
+      <Card>Hello {query.data?.name || query.data?.email}</Card>
       <Outlet />
     </div>
   );
