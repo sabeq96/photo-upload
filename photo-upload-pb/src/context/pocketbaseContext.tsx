@@ -1,7 +1,8 @@
 import PocketBase from "pocketbase";
 import { createContext, useContext, type ReactNode } from "react";
 import type { TypedPocketBase } from "../types/pb";
-const pb = new PocketBase("http://127.0.0.1:8090") as TypedPocketBase;
+import { POCKETBASE_URL } from "../consts";
+const pb = new PocketBase(POCKETBASE_URL) as TypedPocketBase;
 
 export const PocketBaseContext = createContext(pb);
 

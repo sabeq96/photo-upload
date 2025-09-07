@@ -8,7 +8,6 @@ export const useAuth = () => {
     const query = useQuery({
         queryKey: ["auth"],
         queryFn: () => {
-            console.log("fetch")
             if (pb.authStore.isValid) {
                 return pb.authStore.record as UsersResponse;
             }
@@ -22,7 +21,6 @@ export const useAuth = () => {
             return pb.collection("users").authWithPassword(email, password);
         },
         onSuccess: () => {
-            console.log("login success");
             return query.refetch();
         }
     })
