@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.87.1",
+    "@tanstack/react-query-devtools": "^5.87.1",
     "pocketbase": "^0.26.2",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.7",

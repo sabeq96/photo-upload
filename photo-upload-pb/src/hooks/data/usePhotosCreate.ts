@@ -3,7 +3,12 @@ import { usePocketBase } from "../../context";
 import { useAuth } from "./useAuth";
 import type { BatchService } from "pocketbase";
 
-export function usePhotosCreate() {
+interface UsePhotosProps {
+    onSuccess?: () => void;
+    onError?: (error: Error) => void;
+}
+
+export function usePhotosCreate({ onSuccess, onError }: UsePhotosProps) {
     const pb = usePocketBase();
     const queryClient = useQueryClient();
     const auth = useAuth();
@@ -15,7 +20,7 @@ export function usePhotosCreate() {
         });
     }
     
-    const createPhotos = useMutation({
+    return useMutation({
         mutationFn: (files: FileList) => {
             const batch = pb.createBatch();
 
@@ -26,9 +31,11 @@ export function usePhotosCreate() {
             return batch.send();
         },
         onSuccess: () => {
+            onSuccess?.();
             return queryClient.invalidateQueries({ queryKey: ["photos"] });
         },
+        onError: (error) => {
+            onError?.(error);
+        }
     });
-
-    return createPhotos;
 }

@@ -1,25 +1,33 @@
-import { useFileUrl, usePhotos } from "../hooks";
-import { DataScroller } from "primereact/datascroller";
-import type { PhotosResponse } from "../types/pb";
+import { useAlbums, usePhotos } from "../hooks";
+import { Panel } from "primereact/panel";
+import { PhotoPreview } from "../components";
+import { useMemo } from "react";
 
 export function HomePage() {
-  const { data, isLoading, error } = usePhotos({
-    paging: { page: 1, limit: 100 },
-  });
+  const { data: albums } = useAlbums();
+  const { data: photos } = usePhotos({ paging: { page: 1, limit: -1 } });
 
-  const { getFileThumbUrl } = useFileUrl();
+  const photosWithoutAlbum = useMemo(() => {
+    return photos?.items.filter((photo) => !photo.album);
+  }, [photos]);
 
   return (
-    <DataScroller
-      value={data?.items || []}
-      itemTemplate={(item: PhotosResponse) => (
-        <img
-          src={getFileThumbUrl(item, item.file)}
-          alt={item.file}
-          className="w-full aspect-square object-cover"
-        />
-      )}
-      rows={100}
-    />
+    <>
+      <Panel header="Albums" toggleable>
+        <div className="grid grid-cols-4 gap-2">
+          {albums?.map((album) => (
+            <div key={album.id}>
+              <PhotoPreview id={album.photos[0]} />
+              <div className="mt-2">{album.name}</div>
+            </div>
+          ))}
+        </div>
+      </Panel>
+      <Panel header="Photos" toggleable>
+        {photosWithoutAlbum?.map((photo) => (
+          <PhotoPreview key={photo.id} id={photo.id} />
+        ))}
+      </Panel>
+    </>
   );
 }

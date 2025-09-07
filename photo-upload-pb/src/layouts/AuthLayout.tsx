@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 import { Card } from "primereact/card";
 import { SplitButton } from "primereact/splitbutton";
 import { PhotoUploadModal } from "../modals";
+import { AlbumCreateModal } from "../modals/AlbumCreateModal";
 
 export function AuthLayout() {
   const { query } = useAuth();
   const nav = useNavigate();
 
-  const [isPhotoUploadModalVisible, setIsPhotoUploadModalVisible] =
-    useState(false);
+  const [isModalVisible, setIsModalVisible] = useState<
+    "photo" | "album" | null
+  >(null);
 
   useEffect(() => {
     if (!query.data) {
@@ -25,8 +27,13 @@ export function AuthLayout() {
   return (
     <div>
       <PhotoUploadModal
-        visible={isPhotoUploadModalVisible}
-        onHide={() => setIsPhotoUploadModalVisible(false)}
+        visible={isModalVisible === "photo"}
+        onHide={() => setIsModalVisible(null)}
+      />
+
+      <AlbumCreateModal
+        visible={isModalVisible === "album"}
+        onHide={() => setIsModalVisible(null)}
       />
 
       <Card
@@ -39,12 +46,12 @@ export function AuthLayout() {
           <SplitButton
             label="Photo"
             icon="pi pi-plus"
-            onClick={() => setIsPhotoUploadModalVisible(true)}
+            onClick={() => setIsModalVisible("photo")}
             model={[
               {
                 label: "Album",
                 icon: "pi pi-plus",
-                command: () => console.log("Album"),
+                command: () => setIsModalVisible("album"),
               },
               {
                 label: "Logout",

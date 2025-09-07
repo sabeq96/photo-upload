@@ -3,7 +3,7 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { useState } from "react";
 import { usePhotosCreate } from "../hooks";
-import { ScrollPanel } from "primereact/scrollpanel";
+import { Message } from "primereact/message";
 
 interface Props {
   visible: boolean;
@@ -13,16 +13,30 @@ interface Props {
 export function PhotoUploadModal({ visible, onHide }: Props) {
   const [files, setFiles] = useState<FileList | null>(null);
 
-  const { mutate, isPending } = usePhotosCreate();
+  const { mutate, isError, isPending, reset } = usePhotosCreate({
+    onSuccess: () => handleHide(),
+  });
 
   const handleUpload = () => {
-    if (files) {
-      mutate(files);
-    }
+    mutate(files!);
+  };
+
+  const handleHide = () => {
+    setFiles(null);
+    reset();
+    onHide();
   };
 
   return (
-    <Dialog header="Upload Photo" visible={visible} onHide={onHide}>
+    <Dialog header="Upload Photo" visible={visible} onHide={handleHide}>
+      {isError && (
+        <Message
+          severity="error"
+          text="Error uploading photos"
+          className="w-full !mb-4"
+        />
+      )}
+
       <div className="mb-4">
         <InputText
           type="file"
@@ -31,12 +45,13 @@ export function PhotoUploadModal({ visible, onHide }: Props) {
         />
       </div>
 
-      <div className="h-72 my-4 grid grid-cols-6 gap-1 overflow-scroll">
+      <div className="h-72 my-4 grid grid-cols-6 content-start gap-1 overflow-scroll">
         {Array.from(files || []).map((file) => (
           <img
+            key={file.name}
             src={URL.createObjectURL(file)}
             alt={file.name}
-            className="w-full h-full aspect-square object-cover"
+            className="w-full aspect-square object-cover"
           />
         ))}
       </div>
