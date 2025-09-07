@@ -1,10 +1,10 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router';
-import { HomePage } from './pages';
-import './index.css';
-import { PrimeReactProvider } from 'primereact/api';
-
+import { PrimeReactProvider } from "primereact/api";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import { PocketBaseProvider } from "./context";
+import "./index.css";
+import { HomePage } from "./pages";
 
 const router = createBrowserRouter([
   {
@@ -13,10 +13,12 @@ const router = createBrowserRouter([
   },
 ]);
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <PrimeReactProvider>
-      <RouterProvider router={router} />
+      <PocketBaseProvider>
+        <RouterProvider router={router} />
+      </PocketBaseProvider>
     </PrimeReactProvider>
-  </StrictMode>,
-)
+  </StrictMode>
+);

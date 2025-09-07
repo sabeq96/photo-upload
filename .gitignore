@@ -51,4 +51,7 @@ directus/extensions/*
 
 pb/data
 
+# UI
+.env*
+
 
