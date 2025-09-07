@@ -1,0 +1,53 @@
+# Virtual environments
+venv/
+env/
+.venv
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentation and scripts not needed in container
+README.md
+start.py
+
+# Logs
+*.log
+
+# Test files
+test_*
+*_test.py
+
+# Temporary files
+*.tmp
+*.temp
+
+# Build artifacts
+build/
+dist/
+*.egg-info/

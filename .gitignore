@@ -49,4 +49,6 @@ directus/database/*
 directus/extensions/*
 !directus/extensions/spa
 
+pb/data
+
 

@@ -3,7 +3,11 @@ import { readItems } from "@directus/sdk";
 import { useDirectus } from "./useDirectus";
 import type { DirectusSchema } from "../generated";
 
-export function usePhotos() {
+export interface PhotoFilters {
+  unalbumed?: boolean;
+}
+
+export function usePhotos(filters?: PhotoFilters) {
   const directus = useDirectus();
   const [photos, setPhotos] = useState<DirectusSchema["photos"]>([]);
   const [loading, setLoading] = useState(true);
@@ -13,20 +17,43 @@ export function usePhotos() {
     try {
       setLoading(true);
       setError(null);
-      const response = await directus.request(
-        readItems("photos", {
-          fields: ["*"],
-          sort: ["date_created"],
-        })
-      );
 
-      setPhotos(response || []);
+      // Build the query filter based on provided filters
+      let queryFilter = {};
+      if (filters?.unalbumed) {
+        queryFilter = {
+          album_id: {
+            _null: true,
+          },
+        };
+      }
+
+      if (Object.keys(queryFilter).length > 0) {
+        const response = await directus.request(
+          readItems("photos", {
+            fields: ["*"],
+            sort: ["date_created"],
+            filter: queryFilter,
+          })
+        );
+
+        setPhotos(response || []);
+      } else {
+        const response = await directus.request(
+          readItems("photos", {
+            fields: ["*"],
+            sort: ["date_created"],
+          })
+        );
+
+        setPhotos(response || []);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to fetch photos");
     } finally {
       setLoading(false);
     }
-  }, [directus]);
+  }, [directus, filters?.unalbumed]);
 
   useEffect(() => {
     fetchPhotos();
