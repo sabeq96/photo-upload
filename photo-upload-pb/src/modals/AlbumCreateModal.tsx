@@ -2,13 +2,13 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { useMemo, useState } from "react";
-import { useAlbumCreate, useFileUrl, usePhotos } from "../hooks";
+import { useAlbumCreate, useAlbums, useFileUrl, usePhotos } from "../hooks";
 import { Message } from "primereact/message";
 
-interface Props {
+type Props = {
   visible: boolean;
   onHide: () => void;
-}
+};
 
 export function AlbumCreateModal({ visible, onHide }: Props) {
   const [name, setName] = useState<string | null>(null);
@@ -19,7 +19,8 @@ export function AlbumCreateModal({ visible, onHide }: Props) {
     onSuccess: () => handleHide(),
   });
 
-  const { data } = usePhotos({ paging: { page: 1, limit: -1 } });
+  const { data: albums } = useAlbums();
+  const { data: photos } = usePhotos();
 
   const handlePhotoToggle = (photoId: string) => {
     setSelectedPhotoIds((prev) =>
@@ -40,10 +41,11 @@ export function AlbumCreateModal({ visible, onHide }: Props) {
     onHide();
   };
 
-  const photosWithoutAlbum = useMemo(
-    () => data?.items.filter((photo) => !photo.album),
-    [data]
-  );
+  const photosWithoutAlbum = useMemo(() => {
+    const flatAlbums = albums.flatMap((album) => album.photos) || [];
+
+    return photos.filter((photo) => !flatAlbums.includes(photo.id));
+  }, [photos, albums]);
 
   return (
     <Dialog header="Create Album" visible={visible} onHide={handleHide}>

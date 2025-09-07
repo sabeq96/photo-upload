@@ -5,17 +5,19 @@ import { useMemo } from "react";
 
 export function HomePage() {
   const { data: albums } = useAlbums();
-  const { data: photos } = usePhotos({ paging: { page: 1, limit: -1 } });
+  const { data: photos } = usePhotos();
 
   const photosWithoutAlbum = useMemo(() => {
-    return photos?.items.filter((photo) => !photo.album);
-  }, [photos]);
+    const flatAlbums = albums.flatMap((album) => album.photos);
+
+    return photos?.filter((photo) => !flatAlbums.includes(photo.id)) || [];
+  }, [photos, albums]);
 
   return (
     <>
       <Panel header="Albums" toggleable>
         <div className="grid grid-cols-4 gap-2">
-          {albums?.map((album) => (
+          {albums.map((album) => (
             <div key={album.id}>
               <PhotoPreview id={album.photos[0]} />
               <div className="mt-2">{album.name}</div>
@@ -24,7 +26,7 @@ export function HomePage() {
         </div>
       </Panel>
       <Panel header="Photos" toggleable>
-        {photosWithoutAlbum?.map((photo) => (
+        {photosWithoutAlbum.map((photo) => (
           <PhotoPreview key={photo.id} id={photo.id} />
         ))}
       </Panel>

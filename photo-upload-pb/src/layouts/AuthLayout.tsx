@@ -7,7 +7,7 @@ import { PhotoUploadModal } from "../modals";
 import { AlbumCreateModal } from "../modals/AlbumCreateModal";
 
 export function AuthLayout() {
-  const { query } = useAuth();
+  const { query, logout } = useAuth();
   const nav = useNavigate();
 
   const [isModalVisible, setIsModalVisible] = useState<
@@ -23,6 +23,10 @@ export function AuthLayout() {
   if (query.isLoading) {
     return <div>Loading...</div>;
   }
+
+  const handleLogout = () => {
+    logout.mutate();
+  };
 
   return (
     <div>
@@ -56,7 +60,7 @@ export function AuthLayout() {
               {
                 label: "Logout",
                 icon: "pi pi-sign-out",
-                command: () => console.log("Logout"),
+                command: () => handleLogout(),
               },
             ]}
           />

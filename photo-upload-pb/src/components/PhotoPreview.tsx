@@ -11,7 +11,7 @@ export function PhotoPreview({ id }: Props) {
   return (
     <div>
       <img
-        src={getFileThumbUrl(data, data?.file || "")}
+        src={getFileThumbUrl(data, data?.file || id)}
         alt={data?.file || ""}
         className="w-full aspect-square object-cover"
         loading="lazy"

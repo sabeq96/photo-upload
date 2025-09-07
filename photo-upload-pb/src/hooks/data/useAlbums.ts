@@ -7,11 +7,9 @@ export const useAlbums = () => {
     const query = useQuery({
         queryKey: ["albums"],
         queryFn: () => {
-            return pb.collection("albums").getFullList({
-                expand: "photos",
-            });
+            return pb.collection("albums").getFullList();
         }
     });
 
-    return query;
+    return {...query, data: query.data || [] };
 }

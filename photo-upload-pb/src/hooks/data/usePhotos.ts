@@ -1,23 +1,17 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { usePocketBase } from "../../context";
 
-export interface UsePhotosParams {
-    paging?: {
-        page: number;
-        limit: number;
-    };
-}
-
-export const usePhotos = ({ paging = { page: 1, limit: 100 } } : UsePhotosParams) => {
+export const usePhotos = () => {
     const pb = usePocketBase();
     const queryClient = useQueryClient();
-    
+
+
     const query = useQuery({
-        queryKey: ["photos", paging],
+        queryKey: ["photos"],
         queryFn: async () => {
-            const data = await pb.collection("photos").getList(paging.page, paging.limit);
+            const data = await pb.collection("photos").getFullList();
             
-            for (const photo of data.items) {
+            for (const photo of data) {
                 queryClient.setQueryData(["photos", photo.id], photo);
             }
 
@@ -25,5 +19,5 @@ export const usePhotos = ({ paging = { page: 1, limit: 100 } } : UsePhotosParams
         },
     });
 
-    return query;
+    return {...query, data: query.data || [] };
 }
