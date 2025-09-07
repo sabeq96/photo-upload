@@ -1,5 +1,1 @@
-import { useAuth } from "./data/useAuth";
-
-export const data = {
-    useAuth
-}
+export * from "./data/useAuth";
