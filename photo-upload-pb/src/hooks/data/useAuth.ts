@@ -1,30 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { usePocketBase } from "../../context";
-import type { AuthRecord } from "pocketbase";
+import { authStore } from "../../stores";
+import type { UsersResponse } from "../../types/pb";
 
 export const useAuth = () => {
-    const [user, setUser] = useState<AuthRecord | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-
     const pb = usePocketBase();
+    const { user, isLoading, setUser, setIsLoading } = authStore();
 
     useEffect(() => {
-        const checkAuth = async () => {
-            setIsLoading(true);
-            if (pb.authStore.record) {
-                setUser(pb.authStore.record);
-            }
-            setIsLoading(false);
+        if (pb.authStore.isValid && !user && !isLoading) {
+            setUser(pb.authStore.record as UsersResponse);
         }
-
-        checkAuth();
-    }, [pb.authStore.record?.id]);
+    }, [pb.authStore.isValid, user, isLoading, setUser]);
 
     const login = async (email: string, password: string) => {
         try {
             setIsLoading(true);
             pb.authStore.clear();
             await pb.collection("users").authWithPassword(email, password);
+            setUser(pb.authStore.record as UsersResponse);
+        }
+        catch {
+            throw new Error("Login failed");
         }
         finally {
             setIsLoading(false);
@@ -41,5 +38,5 @@ export const useAuth = () => {
         logout,
         isAuthenticated: !!user,
         isLoading,
-    }
+    };
 }
