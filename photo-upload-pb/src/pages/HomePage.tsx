@@ -1,4 +1,6 @@
+import { Card } from "primereact/card";
+
 export function HomePage() {
-  return <div>ok</div>
+  return <Card>ok</Card>
 }
 
